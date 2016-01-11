@@ -22,14 +22,17 @@ import Foundation
 import CoreData
 
 // singleton API caller
-let DQ = DQAPI()
+public let DQ = DQAPI()
+
+// supported store types
+public enum StoreType: Int {
+    case SQLite
+    case InMemory
+}
 
 // public APIs
 public class DQAPI {
-    public enum StoreType: Int {
-        case SQLite
-        case InMemory
-    }
+    public init() {}
     
     public enum OptionKey {
         case ModelName
@@ -38,8 +41,7 @@ public class DQAPI {
         case StoreCoordinator
     }
     
-    private let dq = DQImpl()
-    
+    let dq = DQImpl()
     var isConfigured = false
     
     public func config(options: [OptionKey: Any]) {
@@ -84,13 +86,13 @@ public class DQAPI {
         return dq.query(entity, context: context)
     }
     
-    func insertObject<T:NSManagedObject>(entity: T.Type, block:(NSManagedObjectContext, T)->Void, sync: Bool = false, completion: ((NSManagedObjectID)->())?) {
+    public func insertObject<T:NSManagedObject>(entity: T.Type, block:(NSManagedObjectContext, T)->Void, sync: Bool = false, completion: ((NSManagedObjectID)->())?) {
         assert(isConfigured, "calling insertObject when context is not configured")
 
         return dq.insertObject(entity, block: block, sync: sync, completion: completion)
     }
     
-    func write(block: (NSManagedObjectContext)->Void, sync: Bool = false, completion: (()->Void)? = nil) {
+    public func write(block: (NSManagedObjectContext)->Void, sync: Bool = false, completion: (()->Void)? = nil) {
         assert(isConfigured, "calling write when context is not configured")
 
         return dq.write(block, sync: sync, completion: completion)
@@ -100,7 +102,7 @@ public class DQAPI {
 // wraps Core Data context
 class DQContext {
     var modelName: String! = nil
-    var storeType: DQAPI.StoreType = .SQLite
+    var storeType: StoreType = .SQLite
     lazy var bundle: NSBundle = {
 //        print("using main bundle automatically")
         return NSBundle.mainBundle()

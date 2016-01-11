@@ -19,6 +19,7 @@
 //
 
 import UIKit
+import DQuery
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -28,6 +29,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
         // Override point for customization after application launch.
+        DQ.config([.StoreType: StoreType.SQLite, .ModelName: "TodoDemo"])
+        
         return true
     }
 
