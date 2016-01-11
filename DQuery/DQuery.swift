@@ -30,6 +30,8 @@ public enum StoreType: Int {
     case InMemory
 }
 
+var monitorHandle: UInt8 = 0
+
 // public APIs
 public class DQAPI {
     public init() {}
@@ -97,7 +99,13 @@ public class DQAPI {
 
         return dq.write(block, sync: sync, completion: completion)
     }
+    
+    public func monitor(object: AnyObject, block: ([NSObject: AnyObject])->()) {
+        let monitor = DQMonitor(block: block, context: dq.dqContext.defaultContext)
+        objc_setAssociatedObject(object, &monitorHandle, monitor, objc_AssociationPolicy.OBJC_ASSOCIATION_RETAIN)
+    }
 }
+
 
 // wraps Core Data context
 class DQContext {
@@ -403,6 +411,29 @@ public class DQQuery<T:NSManagedObject> {
         return NSFetchedResultsController(fetchRequest: self.fetchRequest,
             managedObjectContext: self.context,
             sectionNameKeyPath: self.section, cacheName: entityName)
+    }
+}
+
+
+class DQMonitor {
+    let monitorBlock: ([NSObject: AnyObject])->()
+    let context: NSManagedObjectContext
+    
+    init(block: ([NSObject: AnyObject])->(), context: NSManagedObjectContext) {
+        self.monitorBlock = block
+        self.context = context
+        NSNotificationCenter.defaultCenter().addObserver(self, selector: "dataChanged:", name: NSManagedObjectContextObjectsDidChangeNotification, object: context)
+    }
+    
+    deinit {
+//        print("deinit monitor!")
+        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextObjectsDidChangeNotification, object: self.context)
+    }
+    
+    @objc func dataChanged(notification: NSNotification) {
+        if notification.userInfo != nil {
+            monitorBlock(notification.userInfo!)
+        }
     }
 }
 

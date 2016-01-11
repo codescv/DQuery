@@ -27,27 +27,16 @@ class TodoListDataController {
     private var todoItems = [NSManagedObjectID]()
     private var doneItems = [NSManagedObjectID]()
     
-    // data change callback
-    var onChange: (()->())?
     private var shouldAutoReloadOnDataChange = true
     
     init() {
-//        NSNotificationCenter.defaultCenter().addObserver(self, selector: "dataChanged:", name: NSManagedObjectContextObjectsDidChangeNotification, object: session.defaultContext)
+        DQ.monitor(self) {
+            print("data changed! \($0)")
+        }
     }
     
     deinit {
         print("deinit view model")
-//        NSNotificationCenter.defaultCenter().removeObserver(self, name: NSManagedObjectContextObjectsDidChangeNotification, object: session.defaultContext)
-    }
-    
-    @objc func dataChanged(notification: NSNotification) {
-        //        print("changed: \(notification)")
-        if shouldAutoReloadOnDataChange {
-            self.reloadDataFromDB({
-//                print("on change!!! \(self)")
-                self.onChange?()
-            })
-        }
     }
     
     func todoItemAtRow(row: Int) -> TodoItemViewModel {

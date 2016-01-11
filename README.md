@@ -122,4 +122,5 @@ work with DQuery.
 
 ## TODO
 support grouping without fetchedresultscontrllers
+
 support data migration and versioning
