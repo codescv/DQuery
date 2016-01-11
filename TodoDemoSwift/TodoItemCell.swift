@@ -21,5 +21,28 @@
 import UIKit
 
 class TodoItemCell: UITableViewCell {
+    enum Action {
+        case MarkAsDone
+    }
+    
+    var actionTriggered: ((TodoItemCell, Action)->())?
+    
+    @IBOutlet weak var cardBackgroundView: UIView!
+    @IBOutlet weak var titleLabel: UILabel!
+    
+    @IBAction func markAsDone(sender: AnyObject) {
+        self.actionTriggered?(self, .MarkAsDone)
+    }
 
+    func configureWithViewModel(todoItemViewModel: TodoItemViewModel) {
+        self.titleLabel.text = todoItemViewModel.title
+    }
+    
+    override func awakeFromNib() {
+        // set background colors so the cell background can show
+        self.backgroundColor = UIColor.clearColor()
+        self.contentView.backgroundColor = UIColor.clearColor()
+        self.cardBackgroundView.layer.cornerRadius = 5.0
+        self.cardBackgroundView.clipsToBounds = true
+    }
 }

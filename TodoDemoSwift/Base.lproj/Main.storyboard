@@ -27,6 +27,9 @@
                                 <rect key="frame" x="535" y="547" width="35" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <state key="normal" title="New"/>
+                                <connections>
+                                    <action selector="newTodoItem:" destination="gck-sv-2hN" eventType="touchUpInside" id="7zP-FA-WIs"/>
+                                </connections>
                             </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -55,7 +58,7 @@
                         <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                         <color key="sectionIndexBackgroundColor" red="1" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                         <view key="tableFooterView" contentMode="scaleToFill" id="4Mu-aI-OQi" userLabel="footer">
-                            <rect key="frame" x="0.0" y="357" width="600" height="0.0"/>
+                            <rect key="frame" x="0.0" y="356" width="600" height="0.0"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </view>
@@ -81,6 +84,9 @@
                                                             </constraints>
                                                             <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
                                                             <state key="normal" title="✓"/>
+                                                            <connections>
+                                                                <action selector="markAsDone:" destination="ySZ-YW-Rb6" eventType="touchUpInside" id="kZX-nh-OvB"/>
+                                                            </connections>
                                                         </button>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" verticalCompressionResistancePriority="751" text="Aaa" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="WdW-mj-8li">
                                                             <rect key="frame" x="34" y="0.0" width="534" height="36"/>
@@ -109,6 +115,10 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="cardBackgroundView" destination="aqp-kU-qh4" id="eLe-rO-Jwh"/>
+                                    <outlet property="titleLabel" destination="WdW-mj-8li" id="4QI-Vx-s3a"/>
+                                </connections>
                             </tableViewCell>
                             <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="DoneItemCellIdentifier" rowHeight="65" id="WvR-LT-4dE" customClass="DoneItemCell" customModule="TodoDemoSwift" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="120" width="600" height="65"/>
@@ -132,6 +142,9 @@
                                                         <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M1v-Sy-Wuf">
                                                             <rect key="frame" x="538" y="0.0" width="30" height="36"/>
                                                             <state key="normal" title="X"/>
+                                                            <connections>
+                                                                <action selector="deleteAction:" destination="WvR-LT-4dE" eventType="touchUpInside" id="Juw-88-6V1"/>
+                                                            </connections>
                                                         </button>
                                                     </subviews>
                                                 </stackView>
@@ -154,43 +167,56 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="cardBackgroundView" destination="TfF-sl-vxa" id="3vX-Zh-RP8"/>
+                                    <outlet property="deleteButton" destination="M1v-Sy-Wuf" id="cYd-Xl-ajw"/>
+                                    <outlet property="titleLabel" destination="1bD-hz-VV2" id="Cl4-my-Pky"/>
+                                </connections>
                             </tableViewCell>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NewTodoItemIdentifier" rowHeight="134" id="xRh-Hn-f4T" customClass="NewTodoItemCell" customModule="TodoDemoSwift" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="185" width="600" height="134"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="none" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="NewTodoItemIdentifier" rowHeight="133" id="xRh-Hn-f4T" customClass="NewTodoItemCell" customModule="TodoDemoSwift" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="185" width="600" height="133"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xRh-Hn-f4T" id="pYJ-5z-J07">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="133"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="132"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <subviews>
                                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="XzJ-Fa-L7d" userLabel="Background">
-                                            <rect key="frame" x="8" y="12" width="584" height="121"/>
+                                            <rect key="frame" x="8" y="12" width="584" height="120"/>
                                             <subviews>
-                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="yNO-IN-Fwi">
+                                                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" verticalCompressionResistancePriority="751" text="abcde" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="yNO-IN-Fwi">
                                                     <rect key="frame" x="0.0" y="0.0" width="584" height="70"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                    <string key="text">Lorem ipsum dolor sit er elit lamet, consectetaur cillium adipisicing pecu, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Nam liber te conscient to factor tum poen legum odioque civiuda.</string>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="70" id="JXd-Qh-zWt"/>
+                                                    </constraints>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
                                                 </textView>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="5wG-QR-Spp">
-                                                    <rect key="frame" x="546" y="83" width="30" height="30"/>
+                                                    <rect key="frame" x="546" y="80" width="30" height="30"/>
                                                     <state key="normal" title="OK"/>
+                                                    <connections>
+                                                        <action selector="okTouched:" destination="xRh-Hn-f4T" eventType="touchUpInside" id="h3h-3H-PUR"/>
+                                                    </connections>
                                                 </button>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zkM-mw-AnX">
-                                                    <rect key="frame" x="490" y="83" width="48" height="30"/>
+                                                    <rect key="frame" x="490" y="78" width="48" height="34"/>
                                                     <state key="normal" title="Cancel"/>
+                                                    <connections>
+                                                        <action selector="cancelTouched:" destination="xRh-Hn-f4T" eventType="touchUpInside" id="0Dh-h9-Uqt"/>
+                                                    </connections>
                                                 </button>
                                             </subviews>
                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                             <constraints>
+                                                <constraint firstItem="5wG-QR-Spp" firstAttribute="baseline" secondItem="zkM-mw-AnX" secondAttribute="baseline" id="0kp-Ad-xoq"/>
                                                 <constraint firstItem="yNO-IN-Fwi" firstAttribute="top" secondItem="XzJ-Fa-L7d" secondAttribute="top" id="LZX-4g-M0K"/>
                                                 <constraint firstAttribute="trailing" secondItem="yNO-IN-Fwi" secondAttribute="trailing" id="QpY-36-g4e"/>
                                                 <constraint firstAttribute="trailing" secondItem="5wG-QR-Spp" secondAttribute="trailing" constant="8" id="T4m-JF-JV8"/>
                                                 <constraint firstItem="yNO-IN-Fwi" firstAttribute="leading" secondItem="XzJ-Fa-L7d" secondAttribute="leading" id="WLK-xh-pi3"/>
                                                 <constraint firstAttribute="bottom" secondItem="zkM-mw-AnX" secondAttribute="bottom" constant="8" id="hSu-YM-3Zw"/>
-                                                <constraint firstItem="zkM-mw-AnX" firstAttribute="top" secondItem="yNO-IN-Fwi" secondAttribute="bottom" constant="13" id="oNI-Bi-8Mv"/>
+                                                <constraint firstItem="zkM-mw-AnX" firstAttribute="top" secondItem="yNO-IN-Fwi" secondAttribute="bottom" constant="8" id="oNI-Bi-8Mv"/>
                                                 <constraint firstItem="5wG-QR-Spp" firstAttribute="leading" secondItem="zkM-mw-AnX" secondAttribute="trailing" constant="8" id="ofl-j8-TH7"/>
-                                                <constraint firstAttribute="bottom" secondItem="5wG-QR-Spp" secondAttribute="bottom" constant="8" id="qwM-pH-uzG"/>
                                             </constraints>
                                         </view>
                                     </subviews>
@@ -203,6 +229,10 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                <connections>
+                                    <outlet property="cardBackgroundView" destination="XzJ-Fa-L7d" id="k5H-HA-EGw"/>
+                                    <outlet property="textView" destination="yNO-IN-Fwi" id="cJh-9d-oDu"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
