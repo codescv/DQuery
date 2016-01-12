@@ -68,7 +68,7 @@ class TodoListDataController {
                     todoItems.append(objId)
                 }
             }
-            // TODO: sort done items by done time
+
             dispatch_async(dispatch_get_main_queue(), {
                 self.todoItems = todoItems
                 self.doneItems = doneItems
@@ -105,13 +105,10 @@ class TodoListDataController {
                         exchangeWithBelow(row)
                     }
                 }
-                
-                dispatch_sync(dispatch_get_main_queue(), {
-                    self.todoItems = todoItems
-                })
             },
             sync: false,
             completion: {
+                self.todoItems = todoItems
                 completion?()
                 self.shouldAutoReloadOnDataChange = true
         })
@@ -159,7 +156,6 @@ class TodoListDataController {
         self.shouldAutoReloadOnDataChange = false
         DQ.write(
             {context in
-                // TODO: done time
                 let item: TodoItem = context.dq_objectWithID(objId)
                 item.isDone = true
             },
@@ -178,7 +174,7 @@ class TodoListDataController {
         DQ.insertObject(TodoItem.self,
             block: {context, item in
                 item.title = title
-                item.displayOrder = 1 //TodoItem.topDisplayOrder(context)
+                item.displayOrder = TodoItem.topDisplayOrder(context)
             },
             sync: false,
             completion: { objId in

@@ -87,6 +87,9 @@ As a convention, all the action blocks (e.g. the `block` param in `write()` and
 thread. This is convenient for the "do this work in the background,
 and update UI when it's done" pattern.
 
+## Tutorial by examples
+###
+
 
 ## Q&A
 ### How do I use DQuery with NSFetchedResultsController?
@@ -138,6 +141,6 @@ The `TodoItemViewModel` is used to configure a todo item cell.
 
 
 ## TODO
-support grouping without fetchedresultscontrllers
+add cocoapods support
 
 support data migration and versioning
