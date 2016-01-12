@@ -282,6 +282,9 @@ public class DQQuery<T:NSManagedObject> {
     var sortDescriptors = [NSSortDescriptor]()
     var section: String?
     var limit: Int?
+    var groupByKeys = [String]()
+    var selectedColumns = [String]()
+    var columnAliases = [String]()
     
     private var fetchRequest: NSFetchRequest {
         get {
@@ -314,9 +317,18 @@ public class DQQuery<T:NSManagedObject> {
         return self
     }
     
-    public func groupBy(section: String) -> Self {
-        self.section = section
+    public func select(columns: [String], asNames: [String]) -> Self {
+        self.selectedColumns = columns
+        self.columnAliases = asNames
         return self
+    }
+    
+    public func groupBy(key: String) -> DQGroupedQuery<T> {
+        return DQGroupedQuery<T>(keys: [key], query: self)
+    }
+    
+    public func groupBy(keys: [String]) -> DQGroupedQuery<T> {
+        return DQGroupedQuery<T>(keys: keys, query: self)
     }
     
     public func orderBy(key: String, ascending: Bool = true) -> Self {
@@ -407,11 +419,77 @@ public class DQQuery<T:NSManagedObject> {
         }
     }
     
-    public func fetchedResultsController() -> NSFetchedResultsController {
+    public func fetchedResultsController(sectionNameKeyPath: String) -> NSFetchedResultsController {
         return NSFetchedResultsController(fetchRequest: self.fetchRequest,
             managedObjectContext: self.context,
-            sectionNameKeyPath: self.section, cacheName: entityName)
+            sectionNameKeyPath: sectionNameKeyPath, cacheName: entityName)
     }
+}
+
+
+public class DQGroupedQuery<T:NSManagedObject> {
+    var query: DQQuery<T>
+    var keys: [String]
+    
+    var fetchRequest: NSFetchRequest {
+        let request = query.fetchRequest
+        
+        var properties = [AnyObject]()
+        
+        for (expr, alias) in zip(query.selectedColumns, query.columnAliases) {
+            let expressionDescription = NSExpressionDescription()
+            expressionDescription.name = alias
+            expressionDescription.expression = NSExpression(format: expr)
+            expressionDescription.expressionResultType = .FloatAttributeType
+            properties.append(expressionDescription)
+        }
+        
+        for key in self.keys {
+            properties.append(key)
+        }
+        
+        request.propertiesToFetch =  properties
+        request.propertiesToGroupBy = self.keys
+        request.resultType = .DictionaryResultType
+        return request
+    }
+    
+    init(keys: [String], query: DQQuery<T>) {
+        self.query = query
+        self.keys = keys
+    }
+    
+    public func all() -> [[String: AnyObject]] {
+        var result = [[String: AnyObject]]()
+        query.context.performBlockAndWait({
+            if let r = try? self.query.context.executeFetchRequest(self.fetchRequest) {
+                result = r as! [[String: AnyObject]]
+            }
+        })
+        return result
+    }
+    
+    // async fetch
+    public func execute(sync sync: Bool = false, complete: (([[String: AnyObject]]) -> Void)? = nil) {
+        let privateContext = NSManagedObjectContext(concurrencyType: .PrivateQueueConcurrencyType)
+        privateContext.parentContext = self.query.context
+        
+        let blk = {
+            let request = self.fetchRequest
+            if let results = try? privateContext.executeFetchRequest(request) {
+                complete?(results as! [[String: AnyObject]])
+            } else {
+                complete?([[String: AnyObject]]())
+            }
+        }
+        
+        if sync {
+            privateContext.performBlockAndWait(blk)
+        } else {
+            privateContext.performBlock(blk)
+        }
+    }
+
 }
 
 

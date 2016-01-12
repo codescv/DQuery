@@ -16,5 +16,6 @@ extension Employee {
 
     @NSManaged var name: String?
     @NSManaged var age: NSNumber?
+    @NSManaged var salary: NSNumber?
 
 }

@@ -23,7 +23,8 @@ import XCTest
 
 class DQueryTests: XCTestCase {
     override class func setUp() {
-        DQ.config([.ModelName: "TestModel", .StoreType: DQAPI.StoreType.InMemory, .ModelFileBundle: NSBundle(forClass: self)])
+//        DQ.config([.ModelName: "TestModel", .StoreType: StoreType.InMemory, .ModelFileBundle: NSBundle(forClass: self)])
+        DQ.config([.ModelName: "TestModel", .StoreType: StoreType.SQLite, .ModelFileBundle: NSBundle(forClass: self)])
     }
     
     override func setUp() {
@@ -31,11 +32,11 @@ class DQueryTests: XCTestCase {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         
         let employees = [
-            ["name": "Alice", "age": 20],
-            ["name": "Bob", "age": 30],
-            ["name": "Celine", "age": 31],
-            ["name": "Dave", "age": 32],
-            ["name": "Eric", "age": 21]
+            ["name": "Alice", "age": 20, "salary": 1000],
+            ["name": "Bob", "age": 30, "salary": 2500],
+            ["name": "Celine", "age": 31, "salary": 2300],
+            ["name": "Dave", "age": 31, "salary": 2200],
+            ["name": "Eric", "age": 20, "salary": 1500]
         ]
         DQ.write(
             {context in
@@ -48,6 +49,7 @@ class DQueryTests: XCTestCase {
                     let employee = Employee.dq_insertInContext(context)
                     employee.name = emp["name"] as? String
                     employee.age = emp["age"] as! Int
+                    employee.salary = emp["salary"] as! Int
                 }
             },
             sync: true)
@@ -105,6 +107,24 @@ class DQueryTests: XCTestCase {
             sync: true)
         
         assert(query.count() == 0, "Alice should be deleted")
+    }
+    
+    func testGroupBy() {
+        let query = DQ.query(Employee).select(["@max.salary"], asNames: ["max_salary"]).groupBy("age")
+        query.all().forEach { item in
+            if item["age"] as! Int == 20 {
+                assert(item["max_salary"] as! Int == 1500)
+            }
+        }
+        
+        query.execute(sync: true) { result in
+            for item in result {
+                if item["age"] as! Int == 30 {
+                    assert(item["max_salary"] as! Int == 2500)
+                }
+            }
+            print("result: \(result)")
+        }
     }
     
 //    func testPerformanceExample() {
