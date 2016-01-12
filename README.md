@@ -112,6 +112,12 @@ But If you really need multiple models(which is rarely the case), you can
 initialize your own DQAPI instances, and configure them the same way you use
 `DQ.config()`.
 
+### How do I monitor data changes from context?
+Use `DQ.monitor(object, block)`. The block is called when any changes happen in
+the context. The monitor is attached to the object, so the
+observation is automatically unregistered when the object ends its life cycle.
+You don't have to manually call `removeObserver` any more!
+
 
 ## See Also
 The three-layer parent-child context model is explained in detail [Here](https://developmentnow.com/2015/04/28/experimenting-with-the-parent-child-concurrency-pattern-to-optimize-coredata-apps/).
@@ -119,6 +125,17 @@ The three-layer parent-child context model is explained in detail [Here](https:/
 ## TodoDemoSwift walkthrough
 The `TodoDemoSwift` project is a sample project with the purpose of showing how to
 work with DQuery.
+
+The `TodoListViewController` shows a todo list using a child
+`TodoListTableViewController` managing the list.
+
+The `TodoListDataViewController` manages the insertion, deletion, modification
+and moving of a todo item. A todo item can be marked as done, and moved to the
+"DONE" section. This class shows how to use DQuery to simplify data querying
+and manipulation.
+
+The `TodoItemViewModel` is used to configure a todo item cell.
+
 
 ## TODO
 support grouping without fetchedresultscontrllers
