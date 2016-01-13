@@ -30,6 +30,7 @@
 		C87A75BC1C43EA4700D3CE90 /* TodoItemViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87A75BB1C43EA4700D3CE90 /* TodoItemViewModel.swift */; };
 		C87A75BE1C43EF6300D3CE90 /* NewTodoItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87A75BD1C43EF6300D3CE90 /* NewTodoItemCell.swift */; };
 		C87A75C01C43FF1300D3CE90 /* DoneItemCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = C87A75BF1C43FF1300D3CE90 /* DoneItemCell.swift */; };
+		C8B1F4F11C469D80002F1B65 /* DQuery.podspec in Resources */ = {isa = PBXBuildFile; fileRef = C8B1F4F01C469D80002F1B65 /* DQuery.podspec */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -90,6 +91,7 @@
 		C87A75BB1C43EA4700D3CE90 /* TodoItemViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TodoItemViewModel.swift; sourceTree = "<group>"; };
 		C87A75BD1C43EF6300D3CE90 /* NewTodoItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewTodoItemCell.swift; sourceTree = "<group>"; };
 		C87A75BF1C43FF1300D3CE90 /* DoneItemCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DoneItemCell.swift; sourceTree = "<group>"; };
+		C8B1F4F01C469D80002F1B65 /* DQuery.podspec */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = DQuery.podspec; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				C2B023921C4227800015D186 /* README.md */,
+				C8B1F4F01C469D80002F1B65 /* DQuery.podspec */,
 				C29BE5F91C415DCA00756FC8 /* DQuery */,
 				C29BE6051C415DCA00756FC8 /* DQueryTests */,
 				C2B023761C4163990015D186 /* TodoDemoSwift */,
@@ -298,6 +301,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C8B1F4F11C469D80002F1B65 /* DQuery.podspec in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -430,7 +434,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -472,7 +476,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
