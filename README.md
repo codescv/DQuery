@@ -88,13 +88,69 @@ thread. This is convenient for the "do this work in the background,
 and update UI when it's done" pattern.
 
 ## Tutorial by examples
-###
+Here are some examples of how to use DQuery:
+### Query a single object
+```swift
+let result = DQ.query(Employee).filter("name = 'Alice'").first()
+```
 
+### Query multiple objects
+```swift
+let ageLimit = 30
+let result = DQ.query(Employee).filter("age > %@", ageLimit).all()
+```
+
+### Async Query
+```swift
+let ageLimit = 30
+DQ.query(Employee).filter("age > %@", ageLimit).execute {(context, objectIds) in
+    let namesForEmployeesAboveThirty = Set<String>(objectIds.map {
+        let employee: Employee = context.dq_objectWithID($0)
+        return employee.name!
+    })
+}
+```
+
+### Async Writes
+```swift
+let employees = [
+    ["name": "Alice", "age": 20, "salary": 1000],
+    ["name": "Bob", "age": 30, "salary": 2500],
+    ["name": "Celine", "age": 31, "salary": 2300],
+    ["name": "Dave", "age": 31, "salary": 2200],
+    ["name": "Eric", "age": 20, "salary": 1500]
+]
+DQ.write(
+    {context in
+        // delete all data
+        for employee in DQ.query(Employee).all() {
+            employee.dq_delete()
+        }
+        // load test data
+        for emp in employees {
+            let employee = Employee.dq_insertInContext(context)
+            employee.name = emp["name"] as? String
+            employee.age = emp["age"] as! Int
+            employee.salary = emp["salary"] as! Int
+        }
+    },
+    sync: false)
+```
+
+### Group Query
+```swift
+let query = DQ.query(Employee).select(["@max.salary"], asNames: ["max_salary"]).groupBy("age")
+query.all().forEach { item in
+    if item["age"] as! Int == 20 {
+        assert(item["max_salary"] as! Int == 1500)
+    }
+}
+```
 
 ## Q&A
 ### How do I use DQuery with NSFetchedResultsController?
 The query object (obtained by calling `DQ.query()`) has a method
-`.fetchedResultsController()`, which returns a `NSFetchedResultsController` object
+`.fetchedResultsController(sectionNameKeyPath:)`, which returns a `NSFetchedResultsController` object
 for the query. Note that this can only be used in the main thread(Which is
 typically what you want).
 
